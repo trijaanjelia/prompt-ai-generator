@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator Prompt RPS Digital Modern</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    :root {
+      --navy: #0b2b40;
+      --teal: #2c7a64;
+      --teal-dark: #1d5345;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#0b2b40',
+              dark: '#071d2c',
+              light: '#123a52',
+            },
+            teal: {
+              DEFAULT: '#2c7a64',
+              dark: '#1d5345',
+              light: '#e8f4ef',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between text-slate-800">
+
+  <header class="bg-navy border-b border-navy-dark text-white sticky top-0 z-30 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-teal rounded-xl text-white flex items-center justify-center font-bold text-base shadow-sm">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-base tracking-wide leading-tight">Generator Prompt RPS Digital</h1>
+          <p class="text-xs text-teal-light/70">Alat Bantu Penyusunan Struktur Web RPS Interaktif</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button 
+          onclick="resetToDefaultData()" 
+          class="text-xs bg-teal text-white hover:bg-teal-dark font-semibold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm"
+          title="Kembalikan ke data default RPS"
+        >
+          <i class="fa-solid fa-rotate-left"></i>
+          Kembalikan Data Default
+        </button>
+        <button 
+          onclick="clearForm()" 
+          class="text-xs bg-navy-light hover:bg-slate-700 text-slate-200 font-semibold px-3 py-2 rounded-xl transition-all"
+          title="Kosongkan Form"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-8 w-full flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <section class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
+      <div class="mb-6 border-b border-slate-100 pb-4">
+        <h2 class="text-lg font-bold text-navy flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-teal block"></span> Formulir Dokumen RPS
+        </h2>
+        <p class="text-xs text-slate-500 mt-1">Data di bawah ini otomatis disesuaikan dengan dokumen RPS Universitas Sari Mulia milikmu.</p>
+      </div>
+
+      <form id="rpsForm" class="space-y-5" onsubmit="generateRpsPrompt(event)">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label for="mataKuliah" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Nama Mata Kuliah <span class="text-rose-500">*</span></label>
+            <input type="text" id="mataKuliah" class="w-full px-3.5 py-2 bg-slate-50/60 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium" value="Bahasa Pemrograman (Programming Languages)" required>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="kode" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Kode Mata Kuliah <span class="text-rose-500">*</span></label>
+            <input type="text" id="kode" class="w-full px-3.5 py-2 bg-slate-50/60 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium" value="UNISM.IF006" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label for="bobotSks" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Bobot SKS <span class="text-rose-500">*</span></label>
+            <select id="bobotSks" class="w-full px-3.5 py-2 bg-slate-50/60 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium text-slate-700 cursor-pointer" required>
+              <option value="1 SKS">1 SKS</option>
+              <option value="2 SKS">2 SKS</option>
+              <option value="3 SKS" selected>3 SKS</option>
+              <option value="4 SKS">4 SKS</option>
+              <option value="6 SKS">6 SKS</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="semester" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Semester <span class="text-rose-500">*</span></label>
+            <select id="semester" class="w-full px-3.5 py-2 bg-slate-50/60 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium text-slate-700 cursor-pointer" required>
+              <option value="1 (Ganjil)">1 (Ganjil)</option>
+              <option value="2 (Genap)" selected>2 (Genap)</option>
+              <option value="3 (Ganjil)">3 (Ganjil)</option>
+              <option value="4 (Genap)">4 (Genap)</option>
+              <option value="5 (Ganjil)">5 (Ganjil)</option>
+              <option value="6 (Genap)">6 (Genap)</option>
+              <option value="7 (Ganjil)">7 (Ganjil)</option>
+              <option value="8 (Genap)">8 (Genap)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="tanggalPenyusunan" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Tanggal Penyusunan <span class="text-rose-500">*</span></label>
+            <input type="date" id="tanggalPenyusunan" class="w-full px-3.5 py-2 bg-slate-50/60 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium text-slate-700" value="2023-09-18" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-teal-light/40 p-4 rounded-xl border border-teal/10">
+          <div class="flex flex-col gap-1.5">
+            <label for="dosenPengampu" class="text-xs font-bold text-teal-dark uppercase tracking-wider">Dosen Pengampu / Supporting Lecturer <span class="text-rose-500">*</span></label>
+            <input type="text" id="dosenPengampu" class="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium text-slate-800" value="Abdul Latif, M.Kom. (AL)" required>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="dosenAnggota" class="text-xs font-bold text-teal-dark uppercase tracking-wider">Mata Kuliah Syarat</label>
+            <input type="text" id="dosenAnggota" class="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium text-slate-800" value="-">
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="cpl" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Capaian Pembelajaran Lulusan (CPL) <span class="text-rose-500">*</span></label>
+          <textarea id="cpl" rows="3" class="w-full px-3.5 py-2 bg-slate-50/60 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal/20 focus:border-teal transition-all text-sm outline-none font-medium resize-y" required>CPL03 - Mampu merancang, mengimplementasikan, dan mengevaluasi solusi berbasis computing yang sesuai dengan kebutuhan dan solusi teknologi informasi yang diusulkan menggunakan sumberdaya, sarana, dan cara-cara computing modern.</textarea>
+        </div>
+
+        <div class="flex flex-col gap-3 pt-2">
+          <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Elemen Tambahan Struktur Dokumen:</label>
+          
+          <div class="space-y-3">
+            <div class="border border-slate-200 rounded-xl p-3.5 bg-slate-50/40 hover:bg-slate-50 transition-all">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="elemCpmk" class="mt-1 rounded border-slate-300 text-teal focus:ring-teal" onchange="toggleSubInput('cpmkSubWrapper', this)" checked>
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 text-sm block">CPMK & Sub-CPMK</span>
+                  <span class="text-slate-500 text-[11px]">Rincian spesifik kompetensi mata kuliah</span>
+                </div>
+              </label>
+              <div id="cpmkSubWrapper" class="mt-3 pt-3 border-t border-slate-200">
+                <textarea id="cpmkValue" rows="3" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium outline-none focus:ring-2 focus:ring-teal/20 focus:border-teal">CPMK031: Mampu merancang solusi berbasis computing yang sesuai dengan kebutuhan dan solusi teknologi informasi yang diusulkan menggunakan sumberdaya, sarana dan cara-cara computing modern.&#10;CPMK032: Mampu mengimplementasikan solusi berbasis computing yang sesuai dengan kebutuhan dan solusi teknologi informasi yang diusulkan menggunakan sumberdaya, sarana dan cara-cara computing modern.</textarea>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-3.5 bg-slate-50/40 hover:bg-slate-50 transition-all">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="elemBahanKajian" class="mt-1 rounded border-slate-300 text-teal focus:ring-teal" onchange="toggleSubInput('bahanKajianSubWrapper', this)" checked>
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 text-sm block">Bahan Kajian / Course Material</span>
+                  <span class="text-slate-500 text-[11px]">Daftar materi pokok pembelajaran perkuliahan</span>
+                </div>
+              </label>
+              <div id="bahanKajianSubWrapper" class="mt-3 pt-3 border-t border-slate-200">
+                <textarea id="bahanKajianValue" rows="2" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium outline-none focus:ring-2 focus:ring-teal/20 focus:border-teal">1. Teknologi Platform (Platform Technologies)&#10;2. Dasar-dasar Perangkat Lunak (Software Fundamentals)</textarea>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-3.5 bg-slate-50/40 hover:bg-slate-50 transition-all">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="elemKriteria" class="mt-1 rounded border-slate-300 text-teal focus:ring-teal" onchange="toggleSubInput('kriteriaSubWrapper', this)" checked>
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 text-sm block">Kriteria Penilaian / Assessment Criteria</span>
+                  <span class="text-slate-500 text-[11px]">Rincian komponen bobot evaluasi hasil pembelajaran (%)</span>
+                </div>
+              </label>
+              <div id="kriteriaSubWrapper" class="mt-3 pt-3 border-t border-slate-200">
+                <textarea id="kriteriaValue" rows="5" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium outline-none focus:ring-2 focus:ring-teal/20 focus:border-teal">- Aktivitas Partisipatif (Diskusi Kelas & Presentasi Akhir): 10%&#10;- Hasil Proyek (Implementasi Proyek Berbasis Computing): 40%&#10;- Kognitif/Pengetahuan (Tugas Implementasi Konsep Dasar): 10%&#10;- Ujian Tengah Semester (Presentation & QnA of Papers): 15%&#10;- Ujian Akhir Semester (Membuat Jurnal Tentang Proyek): 25%&#10;TOTAL BOBOT EVALUASI: 100%</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full bg-teal hover:bg-teal-dark text-white font-semibold py-3 px-6 rounded-xl shadow-md shadow-slate-100 flex items-center justify-center gap-2 transition-all"
+        >
+          <i class="fa-solid fa-gears"></i>
+          Proses & Generate Prompt
+        </button>
+      </form>
+    </section>
+
+    <section class="lg:col-span-5 flex flex-col gap-6">
+      <div class="bg-navy text-white rounded-2xl p-6 flex flex-col h-full min-h-[480px] shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="flex h-2.5 w-2.5 relative">
+              <span id="pulseIndicator" class="absolute inline-flex h-full w-full rounded-full bg-slate-600 opacity-75"></span>
+              <span id="dotIndicator" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-slate-500"></span>
+            </span>
+            <h3 class="text-xs font-bold tracking-wider uppercase text-slate-300">Hasil Output Prompt AI</h3>
+          </div>
+          <button 
+            onclick="copyToClipboard()"
+            id="copyBtn"
+            class="bg-navy-light hover:bg-slate-800 text-xs px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition-all text-slate-200 hidden"
+          >
+            <i class="fa-regular fa-copy"></i> Salin Teks
+          </button>
+        </div>
+
+        <div id="outputContainer" class="flex-grow flex items-center justify-center overflow-y-auto max-h-[520px] lg:max-h-[600px] bg-navy-dark/70 p-4 rounded-xl border border-slate-800/80 font-mono text-xs text-slate-400 leading-relaxed">
+          <div id="emptyState" class="flex flex-col items-center justify-center text-center py-12 px-4">
+            <div class="w-14 h-14 bg-navy-light rounded-full flex items-center justify-center text-slate-400 mb-3 border border-slate-700/50">
+              <i class="fa-solid fa-code text-xl"></i>
+            </div>
+            <p class="text-sm font-semibold text-slate-200">Data Terbaca Otomatis</p>
+            <p class="text-[11px] text-slate-500 mt-1 max-w-[260px]">Klik tombol "Proses & Generate Prompt" untuk memproduksi blueprint cetak prompt secara langsung.</p>
+          </div>
+
+          <pre id="promptResult" class="whitespace-pre-wrap break-words w-full h-full text-slate-200 text-[11px] hidden"></pre>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-slate-800 flex items-start gap-2 text-xs text-slate-400">
+          <i class="fa-solid fa-circle-info text-teal-light mt-0.5"></i>
+          <p>Prompt yang dihasilkan dirancang spesifik untuk arsitektur UI Dashboard materi perkuliahan satu halaman penuh.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-navy text-white border border-slate-800 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 translate-y-20 opacity-0 transition-all duration-300">
+    <i class="fa-solid fa-circle-check text-teal"></i>
+    <span id="toastMsg" class="text-xs font-medium">Berhasil disalin ke clipboard!</span>
+  </div>
+
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 mt-8">
+    <div class="max-w-7xl mx-auto px-4">
+      RPS Digital Prompt Builder Architecture Platform &bull; Universitas Sari Mulia
+    </div>
+  </footer>
+
+  <script>
+    const defaultData = {
+      mataKuliah: "Bahasa Pemrograman (Programming Languages)",
+      kode: "UNISM.IF006",
+      bobotSks: "3 SKS",
+      semester: "2 (Genap)",
+      tanggalPenyusunan: "2023-09-18",
+      dosenPengampu: "Abdul Latif, M.Kom.",
+      dosenAnggota: "-",
+      cpl: "CPL03 - Mampu merancang, mengimplementasikan, dan mengevaluasi solusi berbasis computing yang sesuai dengan kebutuhan dan solusi teknologi informasi yang diusulkan menggunakan sumberdaya, sarana, dan cara-cara computing modern.",
+      cpmk: "CPMK031: Mampu merancang solusi berbasis computing yang sesuai dengan kebutuhan dan solusi teknologi informasi yang diusulkan menggunakan sumberdaya, sarana dan cara-cara computing modern.\nCPMK032: Mampu mengimplementasikan solusi berbasis computing yang sesuai dengan kebutuhan dan solusi teknologi informasi yang diusulkan menggunakan sumberdaya, sarana dan cara-cara computing modern.",
+      bahanKajian: "1. Teknologi Platform (Platform Technologies)\n2. Dasar-dasar Perangkat Lunak (Software Fundamentals)",
+      kriteria: "- Aktivitas Partisipatif (Diskusi Kelas & Presentasi Akhir): 10%\n- Hasil Proyek (Implementasi Proyek Berbasis Computing): 40%\n- Kognitif/Pengetahuan (Tugas Implementasi Konsep Dasar): 10%\n- Ujian Tengah Semester (Presentation & QnA of Papers): 15%\n- Ujian Akhir Semester (Membuat Jurnal Tentang Proyek): 25%\nTOTAL BOBOT EVALUASI: 100%"
+    };
+
+    function toggleSubInput(wrapperId, checkbox) {
+      const wrapper = document.getElementById(wrapperId);
+      if (checkbox.checked) {
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+      }
+    }
+
+    function resetToDefaultData() {
+      document.getElementById('mataKuliah').value = defaultData.mataKuliah;
+      document.getElementById('kode').value = defaultData.kode;
+      document.getElementById('bobotSks').value = defaultData.bobotSks;
+      document.getElementById('semester').value = defaultData.semester;
+      document.getElementById('tanggalPenyusunan').value = defaultData.tanggalPenyusunan;
+      document.getElementById('dosenPengampu').value = defaultData.dosenPengampu;
+      document.getElementById('dosenAnggota').value = defaultData.dosenAnggota;
+      document.getElementById('cpl').value = defaultData.cpl;
+      document.getElementById('cpmkValue').value = defaultData.cpmk;
+      document.getElementById('bahanKajianValue').value = defaultData.bahanKajian;
+      document.getElementById('kriteriaValue').value = defaultData.kriteria;
+
+      const checklist = ['elemCpmk', 'elemBahanKajian', 'elemKriteria'];
+      const wrappers = ['cpmkSubWrapper', 'bahanKajianSubWrapper', 'kriteriaSubWrapper'];
+      
+      checklist.forEach((id, index) => {
+        const checkbox = document.getElementById(id);
+        checkbox.checked = true;
+        toggleSubInput(wrappers[index], checkbox);
+      });
+
+      showToast("Data form dikembalikan ke RPS Sari Mulia!");
+    }
+
+    function clearForm() {
+      document.getElementById('rpsForm').reset();
+      const wrappers = ['cpmkSubWrapper', 'bahanKajianSubWrapper', 'kriteriaSubWrapper'];
+      wrappers.forEach(id => document.getElementById(id).classList.add('hidden'));
+      
+      const checklist = ['elemCpmk', 'elemBahanKajian', 'elemKriteria'];
+      checklist.forEach(id => document.getElementById(id).checked = false);
+
+      document.getElementById('emptyState').classList.remove('hidden');
+      document.getElementById('promptResult').classList.add('hidden');
+      document.getElementById('copyBtn').classList.add('hidden');
+
+      document.getElementById('pulseIndicator').className = "absolute inline-flex h-full w-full rounded-full bg-slate-600 opacity-75";
+      document.getElementById('dotIndicator').className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-slate-500";
+
+      showToast("Formulir dibersihkan!");
+    }
+
+    function formatIndonesianDate(dateString) {
+      if(!dateString) return "-";
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('id-ID', options);
+    }
+
+    function generateRpsPrompt(event) {
+      event.preventDefault();
+      
+      const mk = document.getElementById('mataKuliah').value;
+      const kode = document.getElementById('kode').value;
+      const sks = document.getElementById('bobotSks').value;
+      const semester = document.getElementById('semester').value;
+      const tglRaw = document.getElementById('tanggalPenyusunan').value;
+      const tgl = formatIndonesianDate(tglRaw);
+      const dospem = document.getElementById('dosenPengampu').value;
+      const prasyarat = document.getElementById('dosenAnggota').value;
+      const cpl = document.getElementById('cpl').value;
+
+      let additionalSections = "";
+      if (document.getElementById('elemCpmk').checked) {
+        additionalSections += `\n\n3. **Capaian Pembelajaran Mata Kuliah (CPMK):**\n${document.getElementById('cpmkValue').value}`;
+      }
+      if (document.getElementById('elemBahanKajian').checked) {
+        additionalSections += `\n\n4. **Bahan Kajian / Pokok Bahasan Materi:**\n${document.getElementById('bahanKajianValue').value}`;
+      }
+      if (document.getElementById('elemKriteria').checked) {
+        additionalSections += `\n\n5. **Kriteria & Komponen Penilaian:**\n${document.getElementById('kriteriaValue').value}`;
+      }
+
+      const generatedPrompt = `Bertindaklah sebagai Senior Frontend Developer profesional. Tolong bangun struktur sistem halaman single-page dashboard berbasis web untuk Rencana Pembelajaran Semester (RPS) dengan detail informasi sebagai berikut:
+
+1. **Meta Data Dokumen & Identitas Kuliah:**
+   - Nama Mata Kuliah: ${mk}
+   - Kode Mata Kuliah: ${kode}
+   - Bobot SKS: ${sks}
+   - Semester: ${semester}
+   - Tanggal Pengembangan: ${tgl}
+   - Dosen Pembimbing Utama / Pengampu: ${dospem}
+   - Mata Kuliah Syarat/Prasyarat: ${prasyarat || '-'}
+
+2. **Capaian Pembelajaran Lulusan (CPL):**
+   - ${cpl}${additionalSections}
+
+**Ketentuan Spesifikasi Desain:**
+- Implementasikan layout modern menggunakan kombinasi tema warna Navy (#0b2b40) untuk aksen profesional-inklusif dan Teal (#2c7a64) untuk elemen visual interaktif, tombol, serta indikator aktif.
+- Desain antarmuka harus sepenuhnya responsif (mobile-first), memiliki panel navigasi yang bersih, komponen grid card interaktif untuk visualisasi data persentase penilaian, serta modul ringkas (seperti accordion) untuk detail sub-materi.
+- Sediakan fitur toggle untuk mode gelap (dark-mode) yang halus.`;
+
+      document.getElementById('emptyState').classList.add('hidden');
+      
+      const outputText = document.getElementById('promptResult');
+      outputText.innerText = generatedPrompt;
+      outputText.classList.remove('hidden');
+      
+      document.getElementById('copyBtn').classList.remove('hidden');
+
+      document.getElementById('pulseIndicator').className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-teal opacity-75";
+      document.getElementById('dotIndicator').className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-teal";
+
+      showToast("Prompt berhasil diproduksi!");
+    }
+
+    function copyToClipboard() {
+      const outputText = document.getElementById('promptResult');
+      if (outputText.classList.contains('hidden')) return;
+
+      const dummy = document.createElement("textarea");
+      dummy.value = outputText.innerText;
+      document.body.appendChild(dummy);
+      dummy.select();
+      
+      try {
+        if (document.execCommand('copy')) {
+          showToast("Prompt berhasil disalin ke clipboard!");
+        }
+      } catch (err) {
+        showToast("Gagal menyalin teks.");
+      }
+      document.body.removeChild(dummy);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toastMsg');
+      msg.innerText = message;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
